@@ -9,8 +9,6 @@ services:
       - app-net
     deploy:
       replicas: 1
-      placement:
-        constraints: [node.role == worker]      
 
   frontend:
     image: concord-frontend
@@ -20,8 +18,6 @@ services:
       - app-net
     deploy:
       replicas: 1
-      placement:
-        constraints: [node.role == worker]
 
 networks:
   app-net:
