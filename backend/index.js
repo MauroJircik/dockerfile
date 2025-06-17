@@ -1,7 +1,8 @@
 import express from "express";
-import cors from "cors";
+//import cors from "cors";
 import { sequelize, User, Item, Purchase } from "./models/index.js";
 
+const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
