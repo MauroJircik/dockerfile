@@ -1,4 +1,3 @@
-
 import express from "express";
 import cors from "cors";
 import { sequelize, User, Item, Purchase } from "./models/index.js";
@@ -6,6 +5,7 @@ import { sequelize, User, Item, Purchase } from "./models/index.js";
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Configurar relacionamentos entre modelos
 // User pode ter várias purchases
 User.hasMany(Purchase, { foreignKey: 'userId' });
 Purchase.belongsTo(User, { foreignKey: 'userId' });
@@ -14,10 +14,11 @@ Purchase.belongsTo(User, { foreignKey: 'userId' });
 Item.hasMany(Purchase, { foreignKey: 'itemId' });
 Purchase.belongsTo(Item, { foreignKey: 'itemId' });
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Rota raiz para indicar que o backend está rodando
+// Rota raiz para checar se backend está rodando
 app.get("/", (req, res) => {
   res.send("Backend está rodando! Use /users, /items ou /purchases");
 });
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 // Rotas da API
 app.get("/users", async (req, res) => {
   try {
+    // Incluir compras do usuário
     const users = await User.findAll({ include: Purchase });
     res.json(users);
   } catch (error) {
@@ -43,6 +45,7 @@ app.get("/items", async (req, res) => {
 
 app.get("/purchases", async (req, res) => {
   try {
+    // Incluir dados do usuário e do item em cada compra
     const purchases = await Purchase.findAll({ include: [User, Item] });
     res.json(purchases);
   } catch (error) {
@@ -51,11 +54,13 @@ app.get("/purchases", async (req, res) => {
 });
 
 // Sincroniza banco e inicia servidor
-sequelize.sync().then(() => {
-  app.listen(PORT, () => {
-    console.log(`✅ Backend rodando em http://localhost:${PORT}`);
+sequelize.sync()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`✅ Backend rodando em http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ Erro ao sincronizar banco:", err);
   });
-}).catch((err) => {
-  console.error("❌ Erro ao sincronizar banco:", err);
-});
 
