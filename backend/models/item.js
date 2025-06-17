@@ -7,8 +7,17 @@ export default (sequelize) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    name: DataTypes.STRING,
-    price: DataTypes.FLOAT,
+    name:  {
+      type: DataTypes.STRING,
+      allowNull: false,    // boa prática garantir que o nome seja obrigatório
+    },
+    price:  {
+      type: DataTypes.FLOAT,
+      allowNull: false,    // preço também obrigatório
+      validate: {
+        min: 0,            // preço não negativo
+      },
+    },
   }, {
     timestamps: false,
   });
