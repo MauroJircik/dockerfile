@@ -16,7 +16,7 @@ export default (sequelize) => {
       unique: true,
       allowNull: false,
       validate: {
-        isEmail: false,
+        isEmail: true,
       },      
     },
   }, {
