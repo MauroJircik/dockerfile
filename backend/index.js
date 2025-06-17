@@ -3,6 +3,7 @@ import cors from "cors";
 import { sequelize, User, Item, Purchase } from "./models/index.js";
 
 const app = express();
+const cors = require('cors');
 const PORT = process.env.PORT || 3001;
 
 // Configurar relacionamentos entre modelos
