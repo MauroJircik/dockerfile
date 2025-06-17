@@ -6,6 +6,14 @@ import { sequelize, User, Item, Purchase } from "./models/index.js";
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// User pode ter várias purchases
+User.hasMany(Purchase, { foreignKey: 'userId' });
+Purchase.belongsTo(User, { foreignKey: 'userId' });
+
+// Item pode ter várias purchases
+Item.hasMany(Purchase, { foreignKey: 'itemId' });
+Purchase.belongsTo(Item, { foreignKey: 'itemId' });
+
 app.use(cors());
 app.use(express.json());
 
