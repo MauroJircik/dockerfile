@@ -2,8 +2,8 @@ import { sequelize, User, Item, Purchase } from "./models/index.js";
 
 async function seed() {
   try {
-    // Sincroniza o banco (cria as tabelas, se não existirem)
-    await sequelize.sync({ force: true }); // 'force: true' apaga e recria as tabelas
+    // Sincroniza o banco (apaga e recria as tabelas)
+    await sequelize.sync({ force: true });
 
     // Criar usuários
     const user1 = await User.create({ name: "Mauro", email: "mauro@email.com" });
@@ -18,10 +18,14 @@ async function seed() {
     await Purchase.create({ userId: user2.id, itemId: item2.id, quantity: 3 });
 
     console.log("🎉 Banco populado com sucesso!");
-    process.exit();
   } catch (error) {
     console.error("Erro ao popular banco:", error);
+  } finally {
+    // Fecha a conexão com o banco, para o processo terminar corretamente
+    await sequelize.close();
+    process.exit();
   }
 }
 
 seed();
+
