@@ -26,14 +26,18 @@ const baseUrl = import.meta.env.VITE_API_URL
 
 onMounted(async () => {
   try {
-    //  Use caminhos relativos para que Nginx redirecione para o backend
     const resUsers = await axios.get(`${baseUrl}/users`)
     const resPurchases = await axios.get(`${baseUrl}/purchases`)
     const resItems = await axios.get(`${baseUrl}/items`)
 
     users.value = resUsers.data
-    purchases.value = resPurchases.data
     items.value = resItems.data
+
+    purchases.value = resPurchases.data.map(purchase => ({
+        ...purchase,
+        user: users.value.find(u => u.id === purchase.userId),
+        item: items.value.find(i => i.id === purchase.itemId)
+    }))
   } catch (err) {
     console.error('Erro ao carregar dados:', err)
   }
