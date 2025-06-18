@@ -7,17 +7,10 @@ export default (sequelize) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    name:  {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    name: DataTypes.STRING,
     email: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: false,
-      validate: {
-        isEmail: true,
-      },      
     },
   }, {
     timestamps: false,
