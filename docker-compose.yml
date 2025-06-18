@@ -3,23 +3,34 @@ version: "3.8"
 services:
   backend:
     image: concord-backend
+    #build:
+      #context: ./backend
+      #dockerfile: Dockerfile
     ports:
       - "3001:3001"
     networks:
       - app-net
     deploy:
       replicas: 1
+      placement:
+        constraints: [node.role == worker]
 
   frontend:
     image: concord-frontend
+    #build:
+      #context: ./frontend
+      #dockerfile: Dockerfile
     ports:
       - "8080:80"
     networks:
       - app-net
     deploy:
       replicas: 1
+      placement:
+        constraints: [node.role == worker]
 
 networks:
   app-net:
     driver: overlay
+
 
