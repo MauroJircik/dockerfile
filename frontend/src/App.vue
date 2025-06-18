@@ -6,6 +6,6 @@
 </template>
 
 <script setup>
-import Users from './views/Users.vue'
+import Users from './views/Users.vue';
 </script>
 
