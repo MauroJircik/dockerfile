@@ -7,7 +7,7 @@ COPY package*.json ./
 RUN apk update && apk upgrade --no-cache && npm install
 
 COPY . .
-RUN npm run build
+RUN npm install && npm run build
 
 # Etapa 2 – Servidor Nginx para servir os arquivos
 FROM nginx:stable-alpine
